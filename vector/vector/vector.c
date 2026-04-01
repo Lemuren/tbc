@@ -1,9 +1,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
-#include "vector.h"
 
 #define TBC_VECTOR_DEFAULT_CAP 64
+#define TBC_VECTOR_INTERNAL
+#include "vector.h"
 
 struct _vector {
     size_t size;
@@ -12,7 +13,7 @@ struct _vector {
     unsigned char* data;
 };
 
-vector vector_init(size_t size, size_t cap) {
+vector _vector_init(size_t size, size_t cap) {
     vector v = malloc(sizeof (*v));
     v->size = size;
     v->len = 0;
@@ -33,12 +34,12 @@ void vector_grow(vector v, size_t min_cap) {
     v->data = reallocarray(v->data, v->cap, v->size);
 }
 
-void* vector_get(vector v, size_t index) {
+void* _vector_get(vector v, size_t index) {
     if (index >= v->len) return NULL;
     return v->data + index * v->size;
 }
 
-void vector_set(vector v, size_t index, void *elem) {
+void _vector_set(vector v, size_t index, void *elem) {
     if (index + 1 > v->cap) {
         vector_grow(v, index + 1);
     }
@@ -49,7 +50,7 @@ void vector_set(vector v, size_t index, void *elem) {
 
 }
 
-void vector_push(vector v, void *elem) {
+void _vector_push(vector v, void *elem) {
     if (v->len >= v->cap) vector_grow(v, v->len+1);
     memcpy(v->data + v->len * v->size, elem, v->size);
     v->len++;
