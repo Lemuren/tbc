@@ -2,7 +2,7 @@
 
 PROJECT_ROOT="$(cd -- "$(dirname -- "$0")" && pwd)"
 BYGG="/home/het/repos/bygg/bygg"
-MODULES="vector"
+MODULES="vector map"
 
 
 
@@ -10,9 +10,9 @@ MODULES="vector"
 shellcheck --norc -o all "${PROJECT_ROOT}/test.sh" || exit 1
 
 # Build each test.
+rm -rf "${PROJECT_ROOT}/build/"
 for mod in ${MODULES}; do
     echo "Building ${mod}..."
-    rm -rf "${PROJECT_ROOT}/build/"
     "${BYGG}" "--quiet" "${PROJECT_ROOT}/${mod}" "${PROJECT_ROOT}/build/${mod}"
 done
 

@@ -1,0 +1,6 @@
+main
+map
+
+cflags: -Wall -Wextra -g
+lflags: -Wall -Wextra -lcmocka -g
+
