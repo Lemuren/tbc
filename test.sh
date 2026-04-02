@@ -13,7 +13,7 @@ shellcheck --norc -o all "${PROJECT_ROOT}/test.sh" || exit 1
 rm -rf "${PROJECT_ROOT}/build/"
 for mod in ${MODULES}; do
     echo "Building ${mod}..."
-    "${BYGG}" "--quiet" "${PROJECT_ROOT}/${mod}" "${PROJECT_ROOT}/build/${mod}"
+    "${BYGG}" "--quiet" "${PROJECT_ROOT}/${mod}" "${PROJECT_ROOT}/build/${mod}" || exit 1
 done
 
 # Run each test.

@@ -3,7 +3,6 @@
 #include <stdint.h>
 
 #define TBC_VECTOR_DEFAULT_CAP 64
-#define TBC_VECTOR_INTERNAL
 #include "vector.h"
 
 struct _vector {
