@@ -9,13 +9,14 @@ typedef struct _hashmap *hashmap;
 hashmap _map_init(size_t key_size, size_t val_size, size_t cap);
 void _map_set(hashmap m, void *key, void *val);
 void* _map_get(hashmap m, void *key);
+void _resize(hashmap m);
 
 // Public API
 #define map_init(K, V, cap) \
     _map_init(sizeof(K), sizeof(V), (cap))
 
 #define map_set(m, key, val) \
-    _map_set((m), (key), (val))
+    _map_set_and_grow((m), (key), (val))
 
 #define map_get(m, key) \
     _map_get((m), (key))

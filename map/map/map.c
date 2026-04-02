@@ -6,6 +6,7 @@
 #include "map.h"
 
 #define TBC_MAP_DEFAULT_CAP 64
+#define TBC_MAP_RESIZE_RATIO 0.7
 
 struct _hashmap {
     size_t key_size;
@@ -78,6 +79,12 @@ void _map_set(hashmap m, void *key, void *val) {
     }
 }
 
+void _map_set_and_grow(hashmap m, void *key, void *val) {
+    _map_set(m, key, val);
+    if (((double)m->len / (double)m->cap) > TBC_MAP_RESIZE_RATIO)
+        _resize(m);
+}
+
 void* _map_get(hashmap m, void *key) {
     int bucket = hash(key, m->key_size) % m->cap;
     for (size_t i = 0; i < m->cap; i++) {
@@ -97,5 +104,33 @@ size_t map_len(hashmap m) {
 
 size_t map_cap(hashmap m) {
     return m->cap;
+}
 
+void _resize(hashmap m) {
+    // Store away old data.
+    void *old_keys = m->keys;
+    void *old_vals = m->vals;
+    unsigned char *old_occupied  = m->occupied;
+    size_t old_cap  = m->cap;
+
+    // Double capacity of underlying data storage.
+    m->cap *= 2;
+    m->len = 0;
+    m->keys = calloc(m->cap, m->key_size);
+    m->vals = calloc(m->cap, m->val_size);
+    m->occupied = calloc(m->cap, 1);
+
+    // Reinsert everything.
+    for (size_t i = 0; i < old_cap; i++) {
+        if (old_occupied[i]) {
+            void *key = old_keys + (i * m->key_size);
+            void *val = old_vals + (i * m->val_size);
+            _map_set(m, key, val);
+        }
+    }
+
+    // Free old arrays.
+    free(old_keys);
+    free(old_vals);
+    free(old_occupied);
 }

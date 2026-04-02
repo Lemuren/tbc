@@ -240,26 +240,26 @@ static void test_map_collision_resolution(void **state) {
 }
 
 
-//static void test_map_resize(void **state) {
-//    (void) state;
-//
-//    hashmap m = map_init(int, int, 4);
-//
-//    for (int i = 0; i < 100; i++) {
-//        map_set(m, &i, &i);
-//    }
-//
-//    assert_true(map_cap(m) > 4);
-//    assert_int_equal(map_len(m), 100);
-//
-//    for (int i = 0; i < 100; i++) {
-//        int *out = map_get(m, &i);
-//        assert_non_null(out);
-//        assert_int_equal(*out, i);
-//    }
-//
-//    map_free(m);
-//}
+static void test_map_resize(void **state) {
+    (void) state;
+
+    hashmap m = map_init(int, int, 4);
+
+    for (int i = 0; i < 100; i++) {
+        map_set(m, &i, &i);
+    }
+
+    assert_true(map_cap(m) > 4);
+    assert_int_equal(map_len(m), 100);
+
+    for (int i = 0; i < 100; i++) {
+        int *out = map_get(m, &i);
+        assert_non_null(out);
+        assert_int_equal(*out, i);
+    }
+
+    map_free(m);
+}
 
 
 
@@ -278,7 +278,7 @@ int main(void) {
         cmocka_unit_test(test_map_many_key_value_pairs_structs),
         cmocka_unit_test(test_map_many_key_value_pairs_strings),
         cmocka_unit_test(test_map_collision_resolution),
-        //cmocka_unit_test(test_map_resize),
+        cmocka_unit_test(test_map_resize),
     };
 
     return cmocka_run_group_tests(tests, NULL, NULL);
