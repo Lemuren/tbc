@@ -1,8 +1,7 @@
 //! bitarray: A dynamic array of bits.
 //!
 //! Provides simple operations for setting, clearing,
-//! and reading individual bits. Bits are stored LSB-first
-//! within each byte.
+//! and reading individual bits.
 
 #ifndef TBC_BITARRAY_H
 #define TBC_BITARRAY_H
