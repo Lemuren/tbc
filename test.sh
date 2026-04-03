@@ -2,7 +2,7 @@
 
 PROJECT_ROOT="$(cd -- "$(dirname -- "$0")" && pwd)"
 BYGG="/home/het/repos/bygg/bygg"
-MODULES="vector map"
+MODULES="vector map bitarray"
 
 
 
